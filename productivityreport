@@ -23,7 +23,7 @@ clic.case_asgn_team
 FROM db3.database_task_detail AS task
 left join db3.database_case_detail AS clic on task.case_id = clic.case_id
 
-where task.task_ts between '2022-01-01' and current_date() --depends on the rolling we need
+WHERE task.task_ts between '2022-01-01' and current_date() --depends on the rolling we need
 and task.opr_id in ('7030034','7029026','7029000','6551292','7029431','7029085','7028966','6551260','7029564','7029122','7029216','7028960','7029449','6423763','6433133','7029605','6330609','6162654','6473678','6330786','6415038','6584162','6507180','6587077','6335146','6418727','6278451','7052037','7053013','7053480','7052360','7052110','7030221','7052078','7029559')
 and substring(task.case_id,1,2) <> 'BI'
 and task.task_nm in ('Pend','TransferToWorkBasket','Resolve','Terminate')  --not all actions are important for productivity report
@@ -69,8 +69,8 @@ sum(a.case_creat_in) case_creat_in,
 sum(a.case_rslv_in) case_rslv_in,
 sum(a.case_touched_in) case_touched_in
 
-FROM cstonedb3.gsn_productivity_case_detail a
-left outer join cstonedb3.employee_details b
+FROM db3.productivity_case_detail a
+left outer join db3.employee_details b
 on trim(a.people_sft_id) = trim(b.emp_id)
 left outer join cstonedb3.employee_details c
 on trim(b.mgr_emp_id) = trim(c.emp_id)
@@ -83,11 +83,11 @@ on trim(a.people_sft_id) = trim(f.emp_id)
 left outer join cstonedb3.employee_details g
 on trim(e.mgr_emp_id) = trim(g.emp_id)
 
-where a.case_wrk_ts between '2022-01-01' and '2022-03-31'   --last 3 months to see trends
+WHERE a.case_wrk_ts between '2022-01-01' and '2022-03-31'   --last 3 months to see trends
 and a.people_sft_id in ('7030034','7029026','7029000','6551292','7029431','7029085','7028966','6551260','7029564','7029122','7029216','7028960','7029449','6423763','6433133','7029605','6330609','6162654','6473678','6330786','6415038','6584162','6507180','6587077','6335146','6418727','6278451','7052037','7053013','7053480','7052360','7052110','7030221','7052078','7029559') 
 --Analyst we need to see
 
-group by
+GROUP BY
 date_format(a.case_wrk_ts,'dd-MMM-yy'),
 a.people_sft_id,
 b.disp_nm,
