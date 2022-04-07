@@ -68,7 +68,7 @@ FROM PortfolioProject..CovidDeaths
 where continent is not null
 
 
--- UNIMOS AMBAS TABLAS
+--Both tables union
 Select *
 From PortfolioProject..CovidDeaths as Dea
 Join PortfolioProject..CovidVacs as Vac
@@ -113,7 +113,7 @@ FROM PopvsVac
 
 
 
--- Tabla temporal para el mismo resultado  (tarda un poco mas)
+-- Temp table same result
 
 DROP TABLE IF exists #PercentPopulationVacc  --si haces algun cambio en los WHERE la query no falla
 Create Table #PercentPopulationVacc   --hay que aclarar que tipo de dato es porque estamos creando una tabla nueva
