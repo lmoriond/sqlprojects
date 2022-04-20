@@ -1,4 +1,5 @@
---Cases worked by month for each team
+
+----------------------------------------------------------------Cases worked by month for each team
 
 SELECT
 case_id,
@@ -51,7 +52,7 @@ and bus_unit = 'CORP'
 --and case_asgn_team like '%BTA Allocations%'
 
 
---Looking at cases filtering by client
+----------------------------------------------------------------Looking at cases filtering by client
 
 SELECT distinct 
 case_id,
@@ -71,4 +72,58 @@ to_date(latest_rslv_ts) as Resolve_date
 from cstonedb3.gsn_clic_case_detail
 where crnt_case_rec_flag = 'Yes'   --for only last case updated (flag created in database)
 and COALESCE(cm15,se10,other_refer_id) in ('#####1772009','); --like 'number%' for any client with that termination
+
+---------------------------------------------------------------- Creating temporary table in order to filter a created column
+
+create temporary table gocm_bahub.commerical_CTR_temp as
+
+select
+a.case_id,
+datediff(latest_rslv_ts,inq_ts) as CTR
+
+from cstonedb3.gsn_clic_case_detail
+
+create temporary table gocm_bahub.CTR_official as
+
+select
+temp.case_id,
+bus_unit,
+case_class,
+cust_mkt,
+case_ctgy,
+case_type,
+case_asgn_team,
+work_type,
+workbasket_or_wklst,
+tot_trans_work,
+refer_id_type,
+coalesce(cm15,se10,other_refer_id) as reference_id,
+simple_case_sta,
+full_case_sta,
+to_date(inq_ts) as inq_ts,
+to_date(creat_ts) as creat_ts,
+to_date(latest_rslv_ts) as latest_rslv_ts,
+date(a.latest_updt_ts) as Update_date,
+datediff(current_date(),a.latest_updt_ts) as RTW, -- Fecha de hoy
+datediff(current_date(),a.inq_ts) as CTR -- Fecha de hoy
+creat_opr_nm,
+latest_updt_opr_nm,
+pend_ct,
+tot_pend_tm,
+latest_pend_ts,
+first_pend_rsn,
+latest_rslv_note,
+workbasket_or_wklst,
+srce_appl
+
+from cstonedb3.gsn_clic_case_detail a left join gocm_bahub.commerical_CTR_temp temp on a.case_id = temp.case_id
+
+where crnt_case_rec_flag = 'Yes'
+and substring(case_id,1,2) <> 'BI'
+and latest_rslv_ts between '2022-01-01' and current_date()
+and cust_mkt in ('Germany','Austria','Spain','France')
+and bus_unit = 'CORP'
+and CTR >= 200
+
+select * from gocm_bahub.CTR_official
 
