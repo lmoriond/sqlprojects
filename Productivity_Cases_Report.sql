@@ -1,3 +1,11 @@
+--Evaluating Analyst Productivity with SQL
+
+--This SQL code delves into a structured database to retrieve data relevant to case completion times for individual analysts. This enables a comprehensive evaluation of productivity and identifies areas for improvement.
+--The code groups cases by analyst and calculate their average completion time & status. 
+--This aggregation enables the calculation of a key performance indicator (KPI) for analyst productivity, providing a valuable metric for stakeholders.
+--This granular analysis empowers managers to allocate resources effectively, provide targeted coaching, and foster a culture of continuous improvement.
+
+
 --Cases worked in the last 3 months by analysts
 
 SELECT
