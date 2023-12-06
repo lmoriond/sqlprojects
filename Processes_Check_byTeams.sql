@@ -1,3 +1,9 @@
+--Analyzing Case Distribution by Team and Month
+
+--The retrieved information provides a comprehensive overview of case distribution patterns, enabling effective team evaluation and performance assessment.
+--The resulting dataset unveils a granular view of case handling across teams and time periods. 
+--By analyzing this data, stakeholders can identify teams excelling in case management, observe any discrepancies in performance, and pinpoint areas for improvement. This granular analysis empowers organizations to optimize their resource allocation, streamline team operations, and enhance overall case management effectiveness.
+
 
 ----------------------------------------------------------------Cases worked by month for each team
 
@@ -73,7 +79,7 @@ from cstonedb3.gsn_clic_case_detail
 where crnt_case_rec_flag = 'Yes'   --for only last case updated (flag created in database)
 and COALESCE(cm15,se10,other_refer_id) in ('#####1772009','); --like 'number%' for any client with that termination
 
----------------------------------------------------------------- Creating temporary table in order to filter a created column
+#---------------------------------------------------------------- Creating temporary table in order to filter a created column---------------------------#
 
 create temporary table gocm_bahub.commerical_CTR_temp as
 
